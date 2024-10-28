@@ -259,7 +259,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      
   [_RAISE] = LAYOUT(  
   //,---------------------------------------------  KC_LBRC, KC_RBRC                   ,---------....,,-----------------------------------------------------.
-      KC_MPLY, KC_ESC , KC_7,    KC_8,    KC_9,  KC_LBRC,                      KC_RBRC, KC_VOLD, KC_TAB, KC_BSPC, KC_VOLU,MY_MACRO ,
+      KC_MPLY, KC_ESC , KC_7,    KC_8,    KC_9,  KC_LBRC,                      KC_RBRC, KC_VOLD, KC_TAB, KC_BSPC, KC_VOLU,KC_INSERT ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_MINS, KC_4,    KC_5,   KC_6,  KC_EQL,                      KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, KC_ENT,  ALTREP ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
