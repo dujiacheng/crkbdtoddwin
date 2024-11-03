@@ -67,6 +67,7 @@ enum custom_keycodes {
 #define WINDOWS DF(_WINDOWS)
 #define FUNC MO(_FUNC)
 #define NUM MO(_NUM)
+#define LOWERR MO(_LOWERR) 
 #define RAISE MO(_RAISE)
 #define NAVGEMMELL MO(_NAVGEMMELL) 
 
@@ -231,16 +232,22 @@ enum custom_layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT(  
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_F1,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,MY_MACRO  ,
+       KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,MY_MACRO  ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H    ,KC_J    ,KC_K    ,KC_L  ,KC_QUOT , KC_ENT ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
   KC_LSFT,   KC_Z,  KC_X,    KC_C,    KC_V,    KC_B,                             KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH , TG_WIN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                       KC_APP, WINNAV, LOW_SPC, MT(MOD_RSFT, KC_SPC) ,  RAISE  ,KC_LALT
+                                       LOWERR, WINNAV, KC_SPC,                 MT(MOD_RSFT, KC_SPC) ,  RAISE  ,KC_LALT
                                       //`----------KC_LGUI----------'  `--------------------------'
-  ),     
+  ),
 
+  [_LOWERR] = LAYOUT(
+      _______,  _______,  KC_F1, KC_F2 , KC_F3, KC_F10 ,                   KC_AMPR, KC_VOLD, KC_VOLU, _______, _______,_______,
+      _______,  KC_A,    KC_F4, KC_PLUS, KC_EQL , KC_INS,                 KC_H    ,KC_J    ,KC_K    ,KC_L  , KC_ENT, _______,
+     KC_LSFT, KC_Z,    ALT_X,  KC_C,KC_V, KC_B,                            KC_TILD, KC_DLR , KC_LCBR, KC_RCBR, _______,_______,
+                                          _______, _______, _______,           KC_SPC, _______, KC_LALT
+  ), 
 
    [_WINNAV] = LAYOUT( 
        _______, KC_ESC,KC_WIN_CLOSE,KC_WIN_TAB_R, APP_SWITCH_FRWD,SCREENSHOT,    KC_HOME,   SPACE_L,    KC_UP,   SPACE_R,     KC_BSPC,_______,
@@ -263,7 +270,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_MINS, KC_4,    KC_5,   KC_6,  KC_EQL,                      KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, KC_ENT,  ALTREP ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_GRV  , KC_1,    KC_2,   KC_3, KC_BSLS,                      KC_MINS, KC_MPRV, KC_COMM,KC_DOT, KC_COLN, KC_SCLN ,
+      _______, KC_GRV  , KC_1,    KC_2,   KC_3, KC_BSLS,                      KC_SCLN, KC_MPRV, KC_COMM,KC_DOT, KC_COLN, KC_SCLN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           FUNC,  KC_0, OSM_SFT,    RAISE  , KC_TRNS, KC_TRNS
                                       //`--------------------------'  `--------------------------'
@@ -278,13 +285,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_MAC_UNDO, KC_MAC_CUT, KC_MAC_COPY,    KC_MAC_PASTE,           KC_MAC_REDO,  XXXXXXX,       KC_MAC_SPOTLIGHT, XXXXXXX, XXXXXXX,   KC_ENT,  _______,
                                           _______, _______, _______,            _______, _______, _______
   ),
-  [_LOWERR] = LAYOUT(
-      _______,  _______,  KC_F1, KC_F2 , KC_F3, KC_F10 ,                   KC_AMPR, KC_VOLD, KC_VOLU, _______, _______,_______,
-      _______,  _______,    KC_F4, KC_PLUS, KC_EQL , KC_INS,                   KC_PIPE, KC_COLN, KC_LPRN, KC_RPRN, KC_PERC,_______,
-      _______, _______,    KC_SLSH, KC_ASTR, KC_CIRC, XXXXXXX,                  KC_TILD, KC_DLR , KC_LCBR, KC_RCBR, _______,_______,
-                                          _______, _______, _______,            KC_LSFT, _______, _______
-  ), 
 
+        
   [_FUNC] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       _______, KC_F1  , KC_F2  , KC_F3   , KC_F4 ,  KC_F5 ,                     KC_F6   , KC_F7  , KC_F8  , KC_F9  , KC_F10 ,_______ ,
