@@ -1,39 +1,16 @@
-//qmk compile -kb crkbd -km markstos
-// qmk flash -c -kb crkbd -km markstos
-
-//qmk compile -kb crkbd -km todd 
-// C:\Users\zccpf\qmk_firmware\.build
-
 #include QMK_KEYBOARD_H
- 
-
-#include "oneshot.h"
-#include "swapper.h"
+ #include "swapper.h"
 #include "layer_lock.h"
 
-//#include "definitions/layers.h"
 #include "definitions/keycodes.h"
-//#include "definitions/keymap_blocks.h"
 #include "features/achordion.h"
- 
- 
 #include "features/os_toggle.h"
-// #include "features/macros.h"
- 
 #include "features/shortcuts.h"
 #include "features/repeat_key.h"
 
-//#include "features/custom_shift.h"
  
-
-
 enum custom_keycodes {
   SELWORD = SAFE_RANGE, 
-  
-  OS_CTRL,
-  OS_ALT,
-  OS_CMD,
-  OS_CAPS, // for use as Globe on iPadOS, via remapping in Settings.app
   APP_SWITCH_FRWD, // cmd-tab but holds cmd between invocations
   SW_LANG,
   LLOCK = SAFE_RANGE,
@@ -42,7 +19,6 @@ enum custom_keycodes {
   // QWERTY = SAFE_RANGE,
   LOWERR,
   RAISE,
-  WINDOWS,
   RSE_SPACE,
   LOW_SPC,
   FUNC,
@@ -64,7 +40,6 @@ enum custom_keycodes {
 
 #define NAV MO(_NAV)
 #define WINNAV MO(_WINNAV)
-#define WINDOWS DF(_WINDOWS)
 #define FUNC MO(_FUNC)
 #define NUM MO(_NUM)
 #define LOWERR MO(_LOWERR) 
@@ -96,7 +71,6 @@ const uint16_t PROGMEM kl_combo[] = {KC_K, KC_L, COMBO_END};
 const uint16_t PROGMEM lquot_combo[] = {KC_L, KC_QUOT, COMBO_END};
 
 const uint16_t PROGMEM gf_combo[] = {KC_G, KC_F, COMBO_END};
-//const uint16_t PROGMEM fd_combo[] = {KC_F, KC_D, COMBO_END};
 const uint16_t PROGMEM ds_combo[] = {KC_D, KC_S, COMBO_END};
 const uint16_t PROGMEM sa_combo[] = {KC_S, KC_A, COMBO_END};
 const uint16_t PROGMEM fivesix_combo[] = {KC_5, KC_6, COMBO_END};
@@ -144,7 +118,6 @@ enum custom_layers {
   _NUM,
   _ADJUST,
   _NAVGEMMELL,
-  _WINDOWS,
 };
 
 // For _QWERTY layer
@@ -221,8 +194,6 @@ enum custom_layers {
 #define TRANSLATE G(S(KC_6))
 #define PYCRUN LCTL(LSFT(KC_R))
 
-
-
 #define SPACE_L LCTL(KC_LEFT)
 #define SPACE_R LCTL(KC_RGHT)
 
@@ -246,7 +217,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______,  _______,  KC_F1, KC_F2 , KC_F3, KC_F10 ,                   KC_AMPR, KC_VOLD, KC_VOLU, _______, _______,_______,
       _______,  KC_A,    KC_F4, KC_PLUS, KC_EQL , KC_INS,                 KC_H    ,KC_J    ,KC_K    ,KC_L  , KC_ENT, _______,
      KC_LSFT, KC_Z,    ALT_X,  KC_C,KC_V, KC_B,                            KC_TILD, KC_DLR , KC_LT, KC_GT, _______,_______,
-                                          _______, _______, _______,           KC_SPC, _______, KC_LALT
+                                          _______, _______, _______,           KC_SPC, _______, OSM_ALT
   ), 
 
    [_WINNAV] = LAYOUT( 
@@ -260,7 +231,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        _______, KC_ESC,KC_MAC_CLOSE,KC_WIN_TAB_R, APP_SWITCH_FRWD,SCREENSHOT,    KC_HOME,   SPACE_L,    KC_UP,   SPACE_R,     KC_BSPC,_______,
        _______,KC_ENT,KC_MAC_SAVE,MC_D,KC_MAC_FIND,TRANSLATE,               KC_CAPS, KC_LEFT, KC_DOWN, KC_RGHT, KC_ENT,OSM(MOD_LCTL),
        _______,KC_MAC_UNDO,KC_MAC_CUT,KC_MAC_COPY,KC_MAC_PASTE,PYCRUN,     KC_END, KC_PGDN, KC_PGUP, SW_LANG,  KC_DEL,_______,
-                                   OS_ALT,  _______, _______,              _______, WINNAV, _______
+                                   OSM_ALT,  _______, _______,              _______, WINNAV, _______
   ),
 
      
@@ -275,9 +246,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                           FUNC,  KC_0, OSM_SFT,    RAISE  , KC_TRNS, KC_TRNS
                                       //`--------------------------'  `--------------------------'
   ),                                         
-//KC_DEL , XXXXXXX, KC_UNDS, KC_PLUS, KC_PGUP   
-// KC_HOME, KC_END , KC_MINS, KC_EQL , KC_PGDN    
-//KC_LT  , KC_GT  , KC_COPY, KC_PSTE, KC_SCLN
 
   [_NAVGEMMELL] = LAYOUT(
       _______, KC_ESC,      APP_SWITCH_FRWD,    XXXXXXX,  XXXXXXX,  XXXXXXX,            KC_PGUP,     KC_MAC_PREV_TAB,  KC_UP,           KC_MAC_NEXT_TAB, KC_BSPC, _______,
@@ -311,42 +279,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     }
 }  
 
-bool is_oneshot_cancel_key(uint16_t keycode) {
-    switch (keycode) {
-    case NAV:
-    case NUM:
-    //case B_NUM:
-    //case SPC_NAV:
-    //case KC_ESC:
-        return true;
-    default:
-        return false;
-    }
-}
 
-bool is_oneshot_ignored_key(uint16_t keycode) {
-    switch (keycode) {
-    case NAV:
-    case NUM:
-    //case B_NUM:
-    //case SPC_NAV:
-    case KC_LSFT:
-    //case OS_SHFT:
-    case OS_CTRL:
-    case OS_ALT:
-    case OS_CMD:
-    case OS_CAPS:
-        return true;
-    default:
-        return false;
-    }
-}
 
-oneshot_state os_shft_state = os_up_unqueued;
-oneshot_state os_ctrl_state = os_up_unqueued;
-oneshot_state os_alt_state = os_up_unqueued;
-oneshot_state os_cmd_state = os_up_unqueued;
-oneshot_state os_caps_state = os_up_unqueued;
 
 bool app_switch_frwd_active = false;
 bool sw_lang_active = false;
@@ -367,51 +301,6 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
-   // if (!process_repeat_key(keycode, record, REPEAT)) { return false; }
-    // if (!process_repeat_key_with_alt(keycode, record, REPEAT, KC_LALT)) {
-    //   return false;
-    // }
-    // switch (keycode) {
-    //   case MY_MACRO:
-    //     if (get_repeat_key_count() > 0) {        // Repeating.
-    //       if (record->event.pressed) {
-    //         SEND_STRING("repeat!");    
-    //       }
-    //     } else if (get_repeat_key_count() < 0) { // Alternate repeating.
-    //       if (record->event.pressed) {
-    //         SEND_STRING("alternate!");    
-    //       }
-    //     } else {                                 // Used normally.
-    //       if (record->event.pressed) {  
-    //         SEND_STRING("macro");
-    //       }
-    //     }
-    //     return false;
-   
-    // // Other macros...
-    // }
-
-
-    //if (!process_achordion(keycode, record)) { return false; }
-
-    // switch (process_shortcuts(keycode, record)) {
-    //     case PROCESS_RECORD_RETURN_TRUE:
-    //         return true;
-    //     case PROCESS_RECORD_RETURN_FALSE:
-    //         return false;
-    //     default:
-    //         break;
-    // };
-    // // Process OS toggle
-    // switch (process_os_toggle(keycode, record)) {
-    //     case PROCESS_RECORD_RETURN_TRUE:
-    //         return true;
-    //     case PROCESS_RECORD_RETURN_FALSE:
-    //         return false;
-    //     default:
-    //         break;
-    // };
     
     update_swapper(
         &app_switch_frwd_active, KC_LALT, KC_TAB, APP_SWITCH_FRWD,
@@ -422,26 +311,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     //     keycode, record
     // );
 
-    // update_oneshot(
-    //     &os_shft_state, KC_LSFT, OS_SHFT,
-    //     keycode, record
-    // );
-    // update_oneshot(
-    //     &os_ctrl_state, KC_LCTL, OS_CTRL,
-    //     keycode, record
-    // );
-    // update_oneshot(
-    //     &os_alt_state, KC_LALT, OS_ALT,
-    //     keycode, record
-    // );
-    // update_oneshot(
-    //     &os_cmd_state, KC_LCMD, OS_CMD,
-    //     keycode, record
-    // );
-    // update_oneshot(
-    //     &os_caps_state, KC_CAPS, OS_CAPS,
-    //     keycode, record
-    // );
 
     return true;
 }
